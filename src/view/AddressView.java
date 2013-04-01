@@ -14,19 +14,20 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import model.Address;
+import model.AddressList;
 
 @SuppressWarnings("serial")
 public class AddressView extends JFrame {
 
 	private Address address;
-	private AddressListView addressListView;
+	private AddressList addressList;
 
 	private JTextField nameTextField;
 	private JTextField emailaddressTextField;
 
-	public AddressView(Address address, AddressListView addressListView) {
+	public AddressView(Address address, AddressList addressList) {
 		this.address = address;
-		this.addressListView = addressListView;
+		this.addressList = addressList;
 		init();
 		populateFields();
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -66,7 +67,7 @@ public class AddressView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				retrieveFields();
 
-				addressListView.addAddress(address);
+				addressList.add(address);
 
 				Container container = (Container) e.getSource();
 				while (!(container instanceof JFrame)) {

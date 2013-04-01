@@ -16,15 +16,17 @@ import javax.swing.JScrollPane;
 
 import model.Address;
 import model.AddressList;
+import model.AddressListObserver;
 
 @SuppressWarnings("serial")
-public class AddressListView extends JFrame {
+public class AddressListView extends JFrame implements AddressListObserver {
 
 	private AddressList addressList;
 	private DefaultListModel listModel;
 
 	public AddressListView(AddressList addressList) {
 		this.addressList = addressList;
+		addressList.addObserver(this);
 		init();
 		populateFields();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,7 +52,6 @@ public class AddressListView extends JFrame {
 		this.add(scrollpane, constraints);
 
 		JButton addButton = new JButton("Add address");
-		final AddressListView alv = this;
 		addButton.addActionListener(new ActionListener() {
 			/**
 			 * Wählen Sie für diese anonyme Klasse AddButtonActionListener als
@@ -59,7 +60,7 @@ public class AddressListView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Address address = new Address();
-				new AddressView(address, alv);
+				new AddressView(address, addressList);
 			}
 		});
 
@@ -97,13 +98,14 @@ public class AddressListView extends JFrame {
 		this.pack();
 	}
 
-	public void addAddress(Address address) {
-		addressList.add(address);
-		this.refreshAddressList();
-	}
-
 	private void populateFields() {
 		refreshAddressList();
+	}
+	
+	public void onListChanged(AddressList addressList) {
+		if (addressList == this.addressList) {
+			refreshAddressList();
+		}
 	}
 
 	private void refreshAddressList() {
