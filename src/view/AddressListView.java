@@ -14,9 +14,11 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 
-import model.Address;
+import model.AbstractAddress;
+import model.EmailonlyAddress;
 import model.AddressList;
 import model.AddressListObserver;
+import model.PostalAddress;
 
 @SuppressWarnings("serial")
 public class AddressListView extends JFrame implements AddressListObserver {
@@ -51,7 +53,7 @@ public class AddressListView extends JFrame implements AddressListObserver {
 
 		this.add(scrollpane, constraints);
 
-		JButton addButton = new JButton("Add address");
+		JButton addButton = new JButton("Add email-only address");
 		addButton.addActionListener(new ActionListener() {
 			/**
 			 * Wählen Sie für diese anonyme Klasse AddButtonActionListener als
@@ -59,8 +61,8 @@ public class AddressListView extends JFrame implements AddressListObserver {
 			 */
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Address address = new Address();
-				new AddressView(address, addressList);
+				EmailonlyAddress address = new EmailonlyAddress();
+				new EmailonlyAddressView(address, addressList);
 			}
 		});
 
@@ -68,6 +70,24 @@ public class AddressListView extends JFrame implements AddressListObserver {
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
 		this.add(addButton, constraints);
+		
+		JButton addPostalButton = new JButton("Add postal address");
+		addPostalButton.addActionListener(new ActionListener() {
+			/**
+			 * Wählen Sie für diese anonyme Klasse AddButtonActionListener als
+			 * Klassenamen.
+			 */
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				PostalAddress address = new PostalAddress();
+				new PostalAddressView(address, addressList);
+			}
+		});
+
+		constraints.weighty = 0.1;
+		constraints.gridy = 2;
+		constraints.gridwidth = 1;
+		this.add(addPostalButton, constraints);
 
 		JButton saveButton = new JButton("Save all");
 
@@ -110,7 +130,7 @@ public class AddressListView extends JFrame implements AddressListObserver {
 
 	private void refreshAddressList() {
 		listModel.removeAllElements();
-		for (Address address : addressList) {
+		for (AbstractAddress address : addressList) {
 			listModel.addElement(address.toString());
 		}
 	}
