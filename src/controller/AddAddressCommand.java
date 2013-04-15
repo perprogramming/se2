@@ -5,16 +5,16 @@ import model.AddressList;
 
 public class AddAddressCommand extends AbstractCommand {
 	
-	public AddAddressCommand(CommandHistory commandHistory, AddressList addressList, AbstractAddress address) {
-		super(commandHistory, addressList, address);
+	public AddAddressCommand(CommandHistory commandHistory, AbstractAddress address) {
+		super(commandHistory, address);
 	}
 
 	protected void doExecute() {
-		addressList.add(address);
+		AddressList.getInstance().add(address);
 	}
 	
 	protected void doUndo() {
-		addressList.remove(address);
+		AddressList.getInstance().remove(address);
 	}
 
 }

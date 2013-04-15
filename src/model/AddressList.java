@@ -8,7 +8,20 @@ public class AddressList extends LinkedList<AbstractAddress> implements Serializ
 
 	private static final long serialVersionUID = -8436170099085318899L;
 	
+	private static AddressList instance = null;
+	
 	private ArrayList<AddressListObserver> observers = new ArrayList<AddressListObserver>();
+	
+	private AddressList() {
+		super();
+	}
+	
+	public static AddressList getInstance() {
+      if (instance == null) {
+         instance = new AddressList();
+      }
+      return instance;
+   }
 	
 	public void addObserver(AddressListObserver observer) {
 		observers.add(observer);

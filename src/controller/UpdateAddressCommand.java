@@ -7,8 +7,8 @@ public class UpdateAddressCommand extends AddAddressCommand {
 	
 	protected AbstractAddress previousAddress;
 	
-	public UpdateAddressCommand(CommandHistory commandHistory, AddressList addressList, AbstractAddress address) {
-		super(commandHistory, addressList, address);
+	public UpdateAddressCommand(CommandHistory commandHistory, AbstractAddress address) {
+		super(commandHistory, address);
 		try {
 			this.previousAddress = address.clone();
 		} catch (CloneNotSupportedException e) {
@@ -16,6 +16,7 @@ public class UpdateAddressCommand extends AddAddressCommand {
 	}
 
 	protected void doUndo() {
+		AddressList addressList = AddressList.getInstance();
 		addressList.remove(address);
 		addressList.add(previousAddress);
 	}

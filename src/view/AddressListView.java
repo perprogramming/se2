@@ -33,16 +33,14 @@ import model.PostalAddress;
 public class AddressListView extends JFrame implements AddressListObserver {
 
 	private CommandHistory commandHistory;
-	private AddressList addressList;
 	private AbstractAddress selectedAddress;
 	private DefaultListModel listModel;
 	private JList list;
 	private JButton deleteButton;
 
-	public AddressListView(AddressList addressList) {
+	public AddressListView() {
 		this.commandHistory = new CommandHistory();
-		this.addressList = addressList;
-		addressList.addObserver(this);
+		AddressList.getInstance().addObserver(this);
 		init();
 		populateFields();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -84,7 +82,7 @@ public class AddressListView extends JFrame implements AddressListObserver {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				EmailonlyAddress address = new EmailonlyAddress();
-				AddAddressCommand command = new AddAddressCommand(commandHistory, addressList, address);
+				AddAddressCommand command = new AddAddressCommand(commandHistory, address);
 				new EmailonlyAddressView(address, command);
 			}
 		});
@@ -99,7 +97,7 @@ public class AddressListView extends JFrame implements AddressListObserver {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				PostalAddress address = new PostalAddress();
-				AddAddressCommand command = new AddAddressCommand(commandHistory, addressList, address);
+				AddAddressCommand command = new AddAddressCommand(commandHistory, address);
 				new PostalAddressView(address, command);
 			}
 		});
@@ -114,7 +112,7 @@ public class AddressListView extends JFrame implements AddressListObserver {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (selectedAddress != null) {
-					DeleteAddressCommand command = new DeleteAddressCommand(commandHistory, addressList, selectedAddress);
+					DeleteAddressCommand command = new DeleteAddressCommand(commandHistory, selectedAddress);
 					command.execute();
 				}				
 			}
@@ -149,7 +147,7 @@ public class AddressListView extends JFrame implements AddressListObserver {
 				try {
 					fos = new FileOutputStream((new Date().getTime() + ".ser"));
 					out = new ObjectOutputStream(fos);
-					out.writeObject(addressList);
+					out.writeObject(AddressList.getInstance());
 					out.close();
 				} catch (IOException ex) {
 					ex.printStackTrace();
@@ -166,7 +164,7 @@ public class AddressListView extends JFrame implements AddressListObserver {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					if (selectedAddress != null) {
-						UpdateAddressCommand command = new UpdateAddressCommand(commandHistory, addressList, selectedAddress);
+						UpdateAddressCommand command = new UpdateAddressCommand(commandHistory, selectedAddress);
 						if (selectedAddress instanceof PostalAddress) {							
 							new PostalAddressView((PostalAddress) selectedAddress, command);
 						}
@@ -186,14 +184,12 @@ public class AddressListView extends JFrame implements AddressListObserver {
 	}
 	
 	public void onListChanged(AddressList addressList) {
-		if (addressList == this.addressList) {
-			refreshAddressList();
-		}
+		refreshAddressList();
 	}
 
 	private void refreshAddressList() {
 		listModel.removeAllElements();
-		for (AbstractAddress address : addressList) {
+		for (AbstractAddress address : AddressList.getInstance()) {
 			listModel.addElement(address);
 		}
 	}

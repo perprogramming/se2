@@ -2,8 +2,6 @@ package model;
 
 import java.io.Serializable;
 
-import controller.AbstractCommand;
-
 public abstract class AbstractAddress implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = -7865459721335090510L;

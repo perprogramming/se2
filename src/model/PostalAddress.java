@@ -1,7 +1,5 @@
 package model;
 
-import controller.AbstractCommand;
-
 @SuppressWarnings("serial")
 public class PostalAddress extends AbstractAddress {
 

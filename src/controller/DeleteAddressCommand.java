@@ -5,16 +5,16 @@ import model.AddressList;
 
 public class DeleteAddressCommand extends AbstractCommand {
 	
-	public DeleteAddressCommand(CommandHistory commandHistory, AddressList addressList, AbstractAddress address) {
-		super(commandHistory, addressList, address);
+	public DeleteAddressCommand(CommandHistory commandHistory, AbstractAddress address) {
+		super(commandHistory, address);
 	}
 
 	protected void doExecute() {
-		addressList.remove(address);
+		AddressList.getInstance().remove(address);
 	}
 	
 	protected void doUndo() {
-		addressList.add(address);
+		AddressList.getInstance().add(address);
 	}
 
 }
