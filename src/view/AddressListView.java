@@ -4,6 +4,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -136,7 +138,22 @@ public class AddressListView extends JFrame implements AddressListObserver {
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
 		this.add(saveButton, constraints);
-
+		
+		list.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					if (selectedAddress != null) {
+						if (selectedAddress instanceof PostalAddress) {
+							new PostalAddressView((PostalAddress) selectedAddress, addressList);
+						}
+						if (selectedAddress instanceof EmailonlyAddress) {
+							new EmailonlyAddressView((EmailonlyAddress) selectedAddress, addressList); 
+						}					
+					}
+				}
+			}
+		});
+		    	
 		this.pack();
 	}
 

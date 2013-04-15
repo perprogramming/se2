@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.ArrayList;
 
 public class AddressList extends LinkedList<AbstractAddress> implements Serializable {
+
 	private static final long serialVersionUID = -8436170099085318899L;
 	
 	private ArrayList<AddressListObserver> observers = new ArrayList<AddressListObserver>();
