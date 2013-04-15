@@ -14,11 +14,24 @@ public class AddressList extends LinkedList<AbstractAddress> implements Serializ
 	}
 
 	public boolean add(AbstractAddress address) {
-		boolean result = super.add(address);
+		boolean result = true;
+		if (!contains(address)) {
+			result = super.add(address);
+		}
+		notifyObservers();
+		return result;
+	}
+	
+	public boolean remove(Object o) {
+		boolean result = super.remove(o);
+		notifyObservers();
+		return result;
+	}
+	
+	protected void notifyObservers() {
 		for (AddressListObserver observer : observers) {
 			observer.onListChanged(this);
 		}
-		return result;
 	}
 	
 }

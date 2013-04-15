@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import model.AbstractAddress;
 import model.EmailonlyAddress;
@@ -24,7 +26,10 @@ import model.PostalAddress;
 public class AddressListView extends JFrame implements AddressListObserver {
 
 	private AddressList addressList;
+	private AbstractAddress selectedAddress;
 	private DefaultListModel listModel;
+	private JList list;
+	private JButton deleteButton;
 
 	public AddressListView(AddressList addressList) {
 		this.addressList = addressList;
@@ -48,8 +53,20 @@ public class AddressListView extends JFrame implements AddressListObserver {
 		constraints.weighty = 0.9;
 
 		listModel = new DefaultListModel();
-		JList list = new JList(listModel);
+		list = new JList(listModel);
 		JScrollPane scrollpane = new JScrollPane(list);
+		
+		list.addListSelectionListener(new ListSelectionListener() {			
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				selectedAddress = (AbstractAddress) list.getSelectedValue();
+				if (selectedAddress == null) {
+					deleteButton.setEnabled(false);					
+				} else {
+					deleteButton.setEnabled(true);
+				}
+			}
+		});		
 
 		this.add(scrollpane, constraints);
 
@@ -80,6 +97,22 @@ public class AddressListView extends JFrame implements AddressListObserver {
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
 		this.add(addPostalButton, constraints);
+		
+		deleteButton = new JButton("Delete address");
+		deleteButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (selectedAddress != null) {
+					addressList.remove(selectedAddress);
+				}				
+			}
+		});
+		deleteButton.setEnabled(false);
+		
+		constraints.gridx = 1;
+		constraints.gridy = 2;
+		constraints.gridwidth = 1;
+		this.add(deleteButton, constraints);
 
 		JButton saveButton = new JButton("Save all");
 
@@ -120,7 +153,7 @@ public class AddressListView extends JFrame implements AddressListObserver {
 	private void refreshAddressList() {
 		listModel.removeAllElements();
 		for (AbstractAddress address : addressList) {
-			listModel.addElement(address.toString());
+			listModel.addElement(address);
 		}
 	}
 }
