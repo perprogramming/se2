@@ -2,7 +2,9 @@ package model;
 
 import java.io.Serializable;
 
-public abstract class AbstractAddress implements Serializable {
+import controller.AbstractCommand;
+
+public abstract class AbstractAddress implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = -7865459721335090510L;
 	private String name;
@@ -35,6 +37,10 @@ public abstract class AbstractAddress implements Serializable {
 
 	public String toString() {
 		return name + " " + emailaddress;
+	}
+	
+	public AbstractAddress clone() throws CloneNotSupportedException {
+		return (AbstractAddress) super.clone();
 	}
 
 }

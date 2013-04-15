@@ -18,6 +18,11 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import controller.AddAddressCommand;
+import controller.CommandHistory;
+import controller.DeleteAddressCommand;
+import controller.UpdateAddressCommand;
+
 import model.AbstractAddress;
 import model.EmailonlyAddress;
 import model.AddressList;
@@ -27,6 +32,7 @@ import model.PostalAddress;
 @SuppressWarnings("serial")
 public class AddressListView extends JFrame implements AddressListObserver {
 
+	private CommandHistory commandHistory;
 	private AddressList addressList;
 	private AbstractAddress selectedAddress;
 	private DefaultListModel listModel;
@@ -34,6 +40,7 @@ public class AddressListView extends JFrame implements AddressListObserver {
 	private JButton deleteButton;
 
 	public AddressListView(AddressList addressList) {
+		this.commandHistory = new CommandHistory();
 		this.addressList = addressList;
 		addressList.addObserver(this);
 		init();
@@ -77,7 +84,8 @@ public class AddressListView extends JFrame implements AddressListObserver {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				EmailonlyAddress address = new EmailonlyAddress();
-				new EmailonlyAddressView(address, addressList);
+				AddAddressCommand command = new AddAddressCommand(commandHistory, addressList, address);
+				new EmailonlyAddressView(address, command);
 			}
 		});
 
@@ -91,7 +99,8 @@ public class AddressListView extends JFrame implements AddressListObserver {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				PostalAddress address = new PostalAddress();
-				new PostalAddressView(address, addressList);
+				AddAddressCommand command = new AddAddressCommand(commandHistory, addressList, address);
+				new PostalAddressView(address, command);
 			}
 		});
 
@@ -105,7 +114,8 @@ public class AddressListView extends JFrame implements AddressListObserver {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (selectedAddress != null) {
-					addressList.remove(selectedAddress);
+					DeleteAddressCommand command = new DeleteAddressCommand(commandHistory, addressList, selectedAddress);
+					command.execute();
 				}				
 			}
 		});
@@ -115,6 +125,19 @@ public class AddressListView extends JFrame implements AddressListObserver {
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
 		this.add(deleteButton, constraints);
+		
+		JButton undoButton = new JButton("Undo");
+		undoButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				commandHistory.undo();				
+			}
+		});
+		
+		constraints.gridx = 1;
+		constraints.gridy = 3;
+		constraints.gridwidth = 1;
+		this.add(undoButton, constraints);
 
 		JButton saveButton = new JButton("Save all");
 
@@ -143,11 +166,12 @@ public class AddressListView extends JFrame implements AddressListObserver {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					if (selectedAddress != null) {
-						if (selectedAddress instanceof PostalAddress) {
-							new PostalAddressView((PostalAddress) selectedAddress, addressList);
+						UpdateAddressCommand command = new UpdateAddressCommand(commandHistory, addressList, selectedAddress);
+						if (selectedAddress instanceof PostalAddress) {							
+							new PostalAddressView((PostalAddress) selectedAddress, command);
 						}
 						if (selectedAddress instanceof EmailonlyAddress) {
-							new EmailonlyAddressView((EmailonlyAddress) selectedAddress, addressList); 
+							new EmailonlyAddressView((EmailonlyAddress) selectedAddress, command); 
 						}					
 					}
 				}

@@ -1,5 +1,7 @@
 package model;
 
+import controller.AbstractCommand;
+
 @SuppressWarnings("serial")
 public class PostalAddress extends AbstractAddress {
 
@@ -48,6 +50,10 @@ public class PostalAddress extends AbstractAddress {
 	public void setTown(String town) {
 		this.town = town;
 	}	
+	
+	public PostalAddress clone() throws CloneNotSupportedException {
+		return (PostalAddress) super.clone();
+	}
 	
 	@Override
 	public String toString() { 

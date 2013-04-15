@@ -13,21 +13,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import controller.AbstractCommand;
 import model.AbstractAddress;
-import model.AddressList;
 
 public abstract class AbstractAddressView extends JFrame {
 
 	private static final long serialVersionUID = -7851292034985707916L;
 	protected AbstractAddress address;
-	protected AddressList addressList;
+	protected AbstractCommand command;
 	private JTextField nameTextField;
 	private JTextField emailaddressTextField;
 	protected JPanel upperPanel;
 	
-	public AbstractAddressView(AbstractAddress address, AddressList addressList) {
+	public AbstractAddressView(AbstractAddress address, AbstractCommand command) {
 		this.address = address;
-		this.addressList = addressList;
+		this.command = command;
 		initabstract();
 		populateFields();
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -58,7 +58,7 @@ public abstract class AbstractAddressView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				retrieveFields();
 	
-				addressList.add(address);
+				command.execute();
 	
 				Container container = (Container) e.getSource();
 				while (!(container instanceof JFrame)) {

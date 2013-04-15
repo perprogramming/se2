@@ -3,15 +3,16 @@ package view;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import controller.AbstractCommand;
+
 import model.AbstractAddress;
-import model.AddressList;
 import model.PostalAddress;
 
 @SuppressWarnings("serial")
 public class PostalAddressView extends AbstractAddressView {
 
-	public PostalAddressView(AbstractAddress address, AddressList addressList) {
-		super(address, addressList);
+	public PostalAddressView(AbstractAddress address, AbstractCommand command) {
+		super(address, command);
 	}
 
 	private JTextField streetTextField;

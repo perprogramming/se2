@@ -1,14 +1,14 @@
 package view;
 
 
+import controller.AbstractCommand;
 import model.EmailonlyAddress;
-import model.AddressList;
 
 @SuppressWarnings("serial")
 public class EmailonlyAddressView extends AbstractAddressView {
 	
-	public EmailonlyAddressView(EmailonlyAddress address, AddressList addressList) {
-		super(address, addressList);
+	public EmailonlyAddressView(EmailonlyAddress address, AbstractCommand command) {
+		super(address, command);
 	}	
 	
 }
