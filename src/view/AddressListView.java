@@ -62,7 +62,7 @@ public class AddressListView extends JFrame implements AddressListObserver {
 			}
 		});
 
-		constraints.weighty = 0.1;
+		constraints.gridx = 0;
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
 		this.add(addButton, constraints);
@@ -76,7 +76,7 @@ public class AddressListView extends JFrame implements AddressListObserver {
 			}
 		});
 
-		constraints.weighty = 0.1;
+		constraints.gridx = 0;
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
 		this.add(addPostalButton, constraints);
@@ -101,6 +101,7 @@ public class AddressListView extends JFrame implements AddressListObserver {
 
 		constraints.gridx = 1;
 		constraints.gridy = 1;
+		constraints.gridwidth = 1;
 		this.add(saveButton, constraints);
 
 		this.pack();
