@@ -55,10 +55,6 @@ public class AddressListView extends JFrame implements AddressListObserver {
 
 		JButton addButton = new JButton("Add email-only address");
 		addButton.addActionListener(new ActionListener() {
-			/**
-			 * Wählen Sie für diese anonyme Klasse AddButtonActionListener als
-			 * Klassenamen.
-			 */
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				EmailonlyAddress address = new EmailonlyAddress();
@@ -73,10 +69,6 @@ public class AddressListView extends JFrame implements AddressListObserver {
 		
 		JButton addPostalButton = new JButton("Add postal address");
 		addPostalButton.addActionListener(new ActionListener() {
-			/**
-			 * Wählen Sie für diese anonyme Klasse AddButtonActionListener als
-			 * Klassenamen.
-			 */
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				PostalAddress address = new PostalAddress();
@@ -92,10 +84,6 @@ public class AddressListView extends JFrame implements AddressListObserver {
 		JButton saveButton = new JButton("Save all");
 
 		saveButton.addActionListener(new ActionListener() {
-			/**
-			 * Wählen Sie für diese anonyme Klasse SaveButtonActionListener als
-			 * Klassenamen.
-			 */
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				FileOutputStream fos = null;
