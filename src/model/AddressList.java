@@ -64,6 +64,7 @@ public class AddressList extends LinkedList<AbstractAddress> implements Serializ
 		while (iterator.hasNext()) {
 			iterator.next().dirty = false;
 		}
+		notifyObservers();
 	}
 	
 	public void read() {

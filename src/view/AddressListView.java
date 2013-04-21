@@ -14,6 +14,9 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import view.decorator.AbstractAddressDecorator;
+import view.decorator.DirtyFlagDisplay;
+
 import controller.AddAddressCommand;
 import controller.CommandHistory;
 import controller.DeleteAddressCommand;
@@ -62,12 +65,8 @@ public class AddressListView extends JFrame implements AddressListObserver {
 		list.addListSelectionListener(new ListSelectionListener() {			
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
-				selectedAddress = (AbstractAddress) list.getSelectedValue();
-				if (selectedAddress == null) {
-					deleteButton.setEnabled(false);					
-				} else {
-					deleteButton.setEnabled(true);
-				}
+				selectedAddress = getSelectedAddress();
+				deleteButton.setEnabled(selectedAddress != null);
 			}
 		});		
 
@@ -191,7 +190,15 @@ public class AddressListView extends JFrame implements AddressListObserver {
 	private void refreshAddressList() {
 		listModel.removeAllElements();
 		for (AbstractAddress address : AddressList.getInstance()) {
-			listModel.addElement(address);
+			listModel.addElement(new DirtyFlagDisplay(address));
 		}
+	}
+	
+	private AbstractAddress getSelectedAddress() {
+		AbstractAddressDecorator address = (AbstractAddressDecorator) list.getSelectedValue();
+		if (address != null) {
+			return address.getAddress();
+		}
+		return null;
 	}
 }
