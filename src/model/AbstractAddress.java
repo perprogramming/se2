@@ -7,6 +7,7 @@ public abstract class AbstractAddress implements Serializable, Cloneable {
 	private static final long serialVersionUID = -7865459721335090510L;
 	private String name;
 	private String emailaddress;
+	public transient boolean dirty;
 
 	public AbstractAddress() {
 		init();

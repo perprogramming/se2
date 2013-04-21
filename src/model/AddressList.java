@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ArrayList;
 
@@ -58,6 +59,11 @@ public class AddressList extends LinkedList<AbstractAddress> implements Serializ
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
+		
+		Iterator<AbstractAddress> iterator = this.iterator();
+		while (iterator.hasNext()) {
+			iterator.next().dirty = false;
+		}
 	}
 	
 	public void read() {
@@ -75,7 +81,13 @@ public class AddressList extends LinkedList<AbstractAddress> implements Serializ
 		    ex.printStackTrace();
 		}
 		instance = addressList;
-		instance.observers = observers;		
+		instance.observers = observers;
+		
+		Iterator<AbstractAddress> iterator = instance.iterator();
+		while (iterator.hasNext()) {
+			iterator.next().dirty = false;
+		}
+		
 		instance.notifyObservers();
 	}
 	
