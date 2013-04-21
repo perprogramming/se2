@@ -6,10 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -119,8 +115,8 @@ public class AddressListView extends JFrame implements AddressListObserver {
 		});
 		deleteButton.setEnabled(false);
 		
-		constraints.gridx = 1;
-		constraints.gridy = 2;
+		constraints.gridx = 0;
+		constraints.gridy = 3;
 		constraints.gridwidth = 1;
 		this.add(deleteButton, constraints);
 		
@@ -142,16 +138,7 @@ public class AddressListView extends JFrame implements AddressListObserver {
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				FileOutputStream fos = null;
-				ObjectOutputStream out = null;
-				try {
-					fos = new FileOutputStream((new Date().getTime() + ".ser"));
-					out = new ObjectOutputStream(fos);
-					out.writeObject(AddressList.getInstance());
-					out.close();
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
+				AddressList.getInstance().save();
 			}
 		});
 
@@ -159,6 +146,20 @@ public class AddressListView extends JFrame implements AddressListObserver {
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
 		this.add(saveButton, constraints);
+		
+		JButton readButton = new JButton("Read all");
+
+		readButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				AddressList.getInstance().read();
+			}
+		});
+
+		constraints.gridx = 1;
+		constraints.gridy = 2;
+		constraints.gridwidth = 1;
+		this.add(readButton, constraints);
 		
 		list.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
