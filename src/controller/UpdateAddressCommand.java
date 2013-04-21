@@ -9,6 +9,7 @@ public class UpdateAddressCommand extends AddAddressCommand {
 	
 	public UpdateAddressCommand(CommandHistory commandHistory, AbstractAddress address) {
 		super(commandHistory, address);
+		address.dirty = true;
 		try {
 			this.previousAddress = address.clone();
 		} catch (CloneNotSupportedException e) {

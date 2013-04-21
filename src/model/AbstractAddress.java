@@ -16,6 +16,7 @@ public abstract class AbstractAddress implements Serializable, Cloneable {
 	protected void init() {
 		this.name = "";
 		this.emailaddress = "";
+		this.dirty = true;
 	}
 
 	public void setName(String name) {
