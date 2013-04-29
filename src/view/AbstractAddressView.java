@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import controller.AbstractCommand;
-import model.AbstractAddress;
+import model.spring.AbstractAddress;
 
 public abstract class AbstractAddressView extends JFrame {
 

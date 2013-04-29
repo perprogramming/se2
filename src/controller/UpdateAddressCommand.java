@@ -1,15 +1,16 @@
 package controller;
 
-import model.AbstractAddress;
-import model.AddressList;
+import model.IAbstractAddress;
+import model.IAddressList;
+import model.spring.AddressList;
 
 public class UpdateAddressCommand extends AddAddressCommand {
 	
-	protected AbstractAddress previousAddress;
+	protected IAbstractAddress previousAddress;
 	
-	public UpdateAddressCommand(CommandHistory commandHistory, AbstractAddress address) {
+	public UpdateAddressCommand(CommandHistory commandHistory, IAbstractAddress address) {
 		super(commandHistory, address);
-		address.dirty = true;
+		address.setDirty(true);
 		try {
 			this.previousAddress = address.clone();
 		} catch (CloneNotSupportedException e) {
@@ -17,7 +18,7 @@ public class UpdateAddressCommand extends AddAddressCommand {
 	}
 
 	protected void doUndo() {
-		AddressList addressList = AddressList.getInstance();
+		IAddressList addressList = AddressList.getInstance();
 		addressList.remove(address);
 		addressList.add(previousAddress);
 	}

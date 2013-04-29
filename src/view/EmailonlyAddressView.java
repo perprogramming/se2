@@ -2,7 +2,7 @@ package view;
 
 
 import controller.AbstractCommand;
-import model.EmailonlyAddress;
+import model.spring.EmailonlyAddress;
 
 @SuppressWarnings("serial")
 public class EmailonlyAddressView extends AbstractAddressView {

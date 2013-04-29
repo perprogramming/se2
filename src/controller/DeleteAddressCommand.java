@@ -1,11 +1,11 @@
 package controller;
 
-import model.AbstractAddress;
-import model.AddressList;
+import model.IAbstractAddress;
+import model.spring.AddressList;
 
 public class DeleteAddressCommand extends AbstractCommand {
 	
-	public DeleteAddressCommand(CommandHistory commandHistory, AbstractAddress address) {
+	public DeleteAddressCommand(CommandHistory commandHistory, IAbstractAddress address) {
 		super(commandHistory, address);
 	}
 

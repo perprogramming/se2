@@ -1,7 +1,9 @@
-package model;
+package model.spring;
+
+import model.IPostalAddress;
 
 @SuppressWarnings("serial")
-public class PostalAddress extends AbstractAddress {
+public class PostalAddress extends AbstractAddress implements IPostalAddress {
 
 	private String street;
 	private String number;
@@ -49,7 +51,7 @@ public class PostalAddress extends AbstractAddress {
 		this.town = town;
 	}	
 	
-	public PostalAddress clone() throws CloneNotSupportedException {
+	public IPostalAddress clone() throws CloneNotSupportedException {
 		return (PostalAddress) super.clone();
 	}
 	

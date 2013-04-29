@@ -1,13 +1,15 @@
-package model;
+package model.spring;
 
 import java.io.Serializable;
 
-public abstract class AbstractAddress implements Serializable, Cloneable {
+import model.IAbstractAddress;
+
+public abstract class AbstractAddress implements Serializable, Cloneable, IAbstractAddress {
 
 	private static final long serialVersionUID = -7865459721335090510L;
 	private String name;
 	private String emailaddress;
-	public transient boolean dirty;
+	private transient boolean dirty;
 
 	public AbstractAddress() {
 		init();
@@ -35,12 +37,22 @@ public abstract class AbstractAddress implements Serializable, Cloneable {
 		return emailaddress;
 	}
 
+	@Override
 	public String toString() {
 		return name + " " + emailaddress;
 	}
 	
-	public AbstractAddress clone() throws CloneNotSupportedException {
+	@Override
+	public IAbstractAddress clone() throws CloneNotSupportedException {
 		return (AbstractAddress) super.clone();
+	}
+	
+	public void setDirty(boolean dirty) {
+		this.dirty = dirty;
+	}
+	
+	public boolean getDirty() {
+		return this.dirty;
 	}
 
 }

@@ -1,4 +1,4 @@
-package model;
+package model.spring;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,30 +10,36 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ArrayList;
 
-public class AddressList extends LinkedList<AbstractAddress> implements Serializable {
+import model.IAbstractAddress;
+import model.IAddressListObserver;
+import model.IAddressList;
+
+public class AddressList extends LinkedList<IAbstractAddress> implements Serializable, IAddressList {
 
 	private static final long serialVersionUID = -8436170099085318899L;
 	private static String filename = "address_system.dat";
 	private static AddressList instance = null;
 	
-	private transient ArrayList<AddressListObserver> observers = new ArrayList<AddressListObserver>();
+	private transient ArrayList<IAddressListObserver> observers = new ArrayList<IAddressListObserver>();
 	
 	private AddressList() {
 		super();
 	}
 	
-	public static AddressList getInstance() {
-      if (instance == null) {
-         instance = new AddressList();
-      }
-      return instance;
-   }
+	public static IAddressList getInstance() {
+		if (instance == null) {
+			instance = new AddressList();
+		}
+		return instance;
+	}
 	
-	public void addObserver(AddressListObserver observer) {
+	@Override
+	public void addObserver(IAddressListObserver observer) {
 		observers.add(observer);
 	}
 
-	public boolean add(AbstractAddress address) {
+	@Override
+	public boolean add(IAbstractAddress address) {
 		boolean result = true;
 		if (!contains(address)) {
 			result = super.add(address);
@@ -42,12 +48,14 @@ public class AddressList extends LinkedList<AbstractAddress> implements Serializ
 		return result;
 	}
 	
+	@Override
 	public boolean remove(Object o) {
 		boolean result = super.remove(o);
 		notifyObservers();
 		return result;
 	}
 	
+	@Override
 	public void save() {
 		FileOutputStream fos = null;
 		ObjectOutputStream out = null;
@@ -60,13 +68,14 @@ public class AddressList extends LinkedList<AbstractAddress> implements Serializ
 			ex.printStackTrace();
 		}
 		
-		Iterator<AbstractAddress> iterator = this.iterator();
+		Iterator<IAbstractAddress> iterator = this.iterator();
 		while (iterator.hasNext()) {
-			iterator.next().dirty = false;
+			iterator.next().setDirty(false);
 		}
 		notifyObservers();
 	}
 	
+	@Override
 	public void read() {
 		AddressList addressList = null;
 		FileInputStream fis = null;
@@ -84,16 +93,16 @@ public class AddressList extends LinkedList<AbstractAddress> implements Serializ
 		instance = addressList;
 		instance.observers = observers;
 		
-		Iterator<AbstractAddress> iterator = instance.iterator();
+		Iterator<IAbstractAddress> iterator = instance.iterator();
 		while (iterator.hasNext()) {
-			iterator.next().dirty = false;
+			iterator.next().setDirty(false);
 		}
 		
 		instance.notifyObservers();
 	}
 	
 	protected void notifyObservers() {
-		for (AddressListObserver observer : observers) {
+		for (IAddressListObserver observer : observers) {
 			observer.onListChanged(this);
 		}
 	}

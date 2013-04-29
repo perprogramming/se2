@@ -5,8 +5,8 @@ import javax.swing.JTextField;
 
 import controller.AbstractCommand;
 
-import model.AbstractAddress;
-import model.PostalAddress;
+import model.spring.AbstractAddress;
+import model.spring.PostalAddress;
 
 @SuppressWarnings("serial")
 public class PostalAddressView extends AbstractAddressView {

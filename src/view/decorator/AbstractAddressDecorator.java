@@ -1,13 +1,14 @@
 package view.decorator;
 
-import model.AbstractAddress;
+import model.IAbstractAddress;
+import model.spring.AbstractAddress;
 
 abstract public class AbstractAddressDecorator extends AbstractAddress {
 	
 	private static final long serialVersionUID = -3472763825157173472L;
-	protected AbstractAddress decorated;
+	protected IAbstractAddress decorated;
 	
-	public AbstractAddressDecorator(AbstractAddress decorated) {
+	public AbstractAddressDecorator(IAbstractAddress decorated) {
 		this.decorated = decorated;
 	}
 	
@@ -15,7 +16,7 @@ abstract public class AbstractAddressDecorator extends AbstractAddress {
 		return this.decorated.toString();
 	}
 	
-	public AbstractAddress getAddress() {
+	public IAbstractAddress getAddress() {
 		return this.decorated;
 	}
 

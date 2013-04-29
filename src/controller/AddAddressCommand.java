@@ -1,11 +1,11 @@
 package controller;
 
-import model.AbstractAddress;
-import model.AddressList;
+import model.IAbstractAddress;
+import model.spring.AddressList;
 
 public class AddAddressCommand extends AbstractCommand {
 	
-	public AddAddressCommand(CommandHistory commandHistory, AbstractAddress address) {
+	public AddAddressCommand(CommandHistory commandHistory, IAbstractAddress address) {
 		super(commandHistory, address);
 	}
 

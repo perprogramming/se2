@@ -1,13 +1,13 @@
 package controller;
 
-import model.AbstractAddress;
+import model.IAbstractAddress;
 
 abstract public class AbstractCommand {
 	
 	protected CommandHistory history;
-	protected AbstractAddress address;
+	protected IAbstractAddress address;
 	
-	public AbstractCommand(CommandHistory history, AbstractAddress address) {
+	public AbstractCommand(CommandHistory history, IAbstractAddress address) {
 		this.history = history;
 		this.address = address;
 	}

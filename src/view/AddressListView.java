@@ -22,17 +22,18 @@ import controller.CommandHistory;
 import controller.DeleteAddressCommand;
 import controller.UpdateAddressCommand;
 
-import model.AbstractAddress;
-import model.EmailonlyAddress;
-import model.AddressList;
-import model.AddressListObserver;
-import model.PostalAddress;
+import model.IAbstractAddress;
+import model.IAddressListObserver;
+import model.IAddressList;
+import model.spring.AddressList;
+import model.spring.EmailonlyAddress;
+import model.spring.PostalAddress;
 
 @SuppressWarnings("serial")
-public class AddressListView extends JFrame implements AddressListObserver {
+public class AddressListView extends JFrame implements IAddressListObserver {
 
 	private CommandHistory commandHistory;
-	private AbstractAddress selectedAddress;
+	private IAbstractAddress selectedAddress;
 	private DefaultListModel listModel;
 	private JList list;
 	private JButton deleteButton;
@@ -183,18 +184,18 @@ public class AddressListView extends JFrame implements AddressListObserver {
 		refreshAddressList();
 	}
 	
-	public void onListChanged(AddressList addressList) {
+	public void onListChanged(IAddressList addressList) {
 		refreshAddressList();
 	}
 
 	private void refreshAddressList() {
 		listModel.removeAllElements();
-		for (AbstractAddress address : AddressList.getInstance()) {
+		for (IAbstractAddress address : AddressList.getInstance()) {
 			listModel.addElement(new DirtyFlagDisplay(address));
 		}
 	}
 	
-	private AbstractAddress getSelectedAddress() {
+	private IAbstractAddress getSelectedAddress() {
 		AbstractAddressDecorator address = (AbstractAddressDecorator) list.getSelectedValue();
 		if (address != null) {
 			return address.getAddress();

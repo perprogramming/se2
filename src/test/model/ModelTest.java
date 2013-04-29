@@ -1,5 +1,8 @@
-package model;
+package test.model;
 
+import model.IAbstractAddress;
+import model.spring.AbstractAddress;
+import model.spring.EmailonlyAddress;
 import view.decorator.DirtyFlagDisplay;
 import junit.framework.TestCase;
 
@@ -20,10 +23,10 @@ public class ModelTest extends TestCase {
 	}
 	
 	public void testWithDecorator() {
-		AbstractAddress decoratedAddress = new DirtyFlagDisplay(address);
+		IAbstractAddress decoratedAddress = new DirtyFlagDisplay(address);
         assertEquals("a b", decoratedAddress.toString());
         
-        address.dirty = false;
+        address.setDirty(false);
         assertEquals(">  a b", decoratedAddress.toString());        
 	}
 	
