@@ -1,14 +1,17 @@
 package controller;
 
 import model.IAbstractAddress;
+import model.IAddressList;
 
 abstract public class AbstractCommand {
 	
 	protected CommandHistory history;
+	protected IAddressList addressList;
 	protected IAbstractAddress address;
 	
-	public AbstractCommand(CommandHistory history, IAbstractAddress address) {
+	public AbstractCommand(CommandHistory history, IAddressList addressList, IAbstractAddress address) {
 		this.history = history;
+		this.addressList = addressList;
 		this.address = address;
 	}
 	

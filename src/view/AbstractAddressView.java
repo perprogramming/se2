@@ -14,18 +14,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import controller.AbstractCommand;
-import model.spring.AbstractAddress;
+import model.IAbstractAddress;
 
 public abstract class AbstractAddressView extends JFrame {
 
 	private static final long serialVersionUID = -7851292034985707916L;
-	protected AbstractAddress address;
+	protected IAbstractAddress address;
 	protected AbstractCommand command;
 	private JTextField nameTextField;
 	private JTextField emailaddressTextField;
 	protected JPanel upperPanel;
 	
-	public AbstractAddressView(AbstractAddress address, AbstractCommand command) {
+	public AbstractAddressView(IAbstractAddress address, AbstractCommand command) {
 		this.address = address;
 		this.command = command;
 		initabstract();

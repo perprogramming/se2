@@ -1,7 +1,12 @@
+import model.Factory;
 import view.AddressListView;
 
 public class Starter {
 	public static void main(String[] args) {
-		new AddressListView();
+		Factory factory = new Factory();
+		new AddressListView(
+			factory.createAddressList(),
+			factory
+		);
 	}
 }

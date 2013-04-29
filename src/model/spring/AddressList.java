@@ -18,20 +18,8 @@ public class AddressList extends LinkedList<IAbstractAddress> implements Seriali
 
 	private static final long serialVersionUID = -8436170099085318899L;
 	private static String filename = "address_system.dat";
-	private static AddressList instance = null;
 	
 	private transient ArrayList<IAddressListObserver> observers = new ArrayList<IAddressListObserver>();
-	
-	private AddressList() {
-		super();
-	}
-	
-	public static IAddressList getInstance() {
-		if (instance == null) {
-			instance = new AddressList();
-		}
-		return instance;
-	}
 	
 	@Override
 	public void addObserver(IAddressListObserver observer) {
@@ -77,6 +65,8 @@ public class AddressList extends LinkedList<IAbstractAddress> implements Seriali
 	
 	@Override
 	public void read() {
+		this.clear();
+		
 		AddressList addressList = null;
 		FileInputStream fis = null;
 		ObjectInputStream in = null;
@@ -90,15 +80,13 @@ public class AddressList extends LinkedList<IAbstractAddress> implements Seriali
 		} catch(ClassNotFoundException ex){
 		    ex.printStackTrace();
 		}
-		instance = addressList;
-		instance.observers = observers;
 		
-		Iterator<IAbstractAddress> iterator = instance.iterator();
+		Iterator<IAbstractAddress> iterator = addressList.iterator();
 		while (iterator.hasNext()) {
-			iterator.next().setDirty(false);
+			IAbstractAddress address = iterator.next();
+			address.setDirty(false);
+			this.add(address);			
 		}
-		
-		instance.notifyObservers();
 	}
 	
 	protected void notifyObservers() {

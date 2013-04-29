@@ -4,8 +4,6 @@ import model.IAbstractAddress;
 
 public class DirtyFlagDisplay extends AbstractAddressDecorator {
 
-	private static final long serialVersionUID = 6750214071385822319L;
-	
 	public DirtyFlagDisplay(IAbstractAddress decorated) {
 		super(decorated);
 	}
@@ -17,6 +15,11 @@ public class DirtyFlagDisplay extends AbstractAddressDecorator {
 		} else {
 			return display;
 		}
+	}
+
+	@Override
+	public DirtyFlagDisplay clone() throws CloneNotSupportedException {
+		return new DirtyFlagDisplay(decorated.clone());
 	}
 
 }

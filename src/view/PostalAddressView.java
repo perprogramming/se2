@@ -3,15 +3,14 @@ package view;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import controller.AbstractCommand;
+import model.IPostalAddress;
 
-import model.spring.AbstractAddress;
-import model.spring.PostalAddress;
+import controller.AbstractCommand;
 
 @SuppressWarnings("serial")
 public class PostalAddressView extends AbstractAddressView {
 
-	public PostalAddressView(AbstractAddress address, AbstractCommand command) {
+	public PostalAddressView(IPostalAddress address, AbstractCommand command) {
 		super(address, command);
 	}
 
@@ -49,7 +48,7 @@ public class PostalAddressView extends AbstractAddressView {
 	@Override
 	protected void populateFields() {
 		super.populateFields();
-		PostalAddress postalAddress = (PostalAddress) this.address;
+		IPostalAddress postalAddress = (IPostalAddress) this.address;
 		streetTextField.setText(postalAddress.getStreet());
 		numberTextField.setText(postalAddress.getNumber());
 		zipTextField.setText(postalAddress.getZip());
@@ -59,7 +58,7 @@ public class PostalAddressView extends AbstractAddressView {
 	@Override
 	protected void retrieveFields() {
 		super.retrieveFields();
-		PostalAddress postalAddress = (PostalAddress) this.address;
+		IPostalAddress postalAddress = (IPostalAddress) this.address;
 		postalAddress.setStreet(streetTextField.getText());
 		postalAddress.setNumber(numberTextField.getText());
 		postalAddress.setZip(zipTextField.getText());

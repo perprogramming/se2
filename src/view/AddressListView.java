@@ -22,25 +22,29 @@ import controller.CommandHistory;
 import controller.DeleteAddressCommand;
 import controller.UpdateAddressCommand;
 
+import model.Factory;
 import model.IAbstractAddress;
 import model.IAddressListObserver;
 import model.IAddressList;
-import model.spring.AddressList;
-import model.spring.EmailonlyAddress;
-import model.spring.PostalAddress;
+import model.IEmailonlyAddress;
+import model.IPostalAddress;
 
 @SuppressWarnings("serial")
 public class AddressListView extends JFrame implements IAddressListObserver {
 
+	private IAddressList addressList;
+	private Factory factory;
 	private CommandHistory commandHistory;
 	private IAbstractAddress selectedAddress;
 	private DefaultListModel listModel;
 	private JList list;
 	private JButton deleteButton;
 
-	public AddressListView() {
+	public AddressListView(IAddressList addressList, Factory factory) {
+		this.addressList = addressList;
+		this.factory = factory;
 		this.commandHistory = new CommandHistory();
-		AddressList.getInstance().addObserver(this);
+		this.addressList.addObserver(this);
 		init();
 		populateFields();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -77,8 +81,8 @@ public class AddressListView extends JFrame implements IAddressListObserver {
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				EmailonlyAddress address = new EmailonlyAddress();
-				AddAddressCommand command = new AddAddressCommand(commandHistory, address);
+				IEmailonlyAddress address = factory.createEmailonlyAddress();
+				AddAddressCommand command = new AddAddressCommand(commandHistory, addressList, address);
 				new EmailonlyAddressView(address, command);
 			}
 		});
@@ -92,8 +96,8 @@ public class AddressListView extends JFrame implements IAddressListObserver {
 		addPostalButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				PostalAddress address = new PostalAddress();
-				AddAddressCommand command = new AddAddressCommand(commandHistory, address);
+				IPostalAddress address = factory.createPostalAddress();
+				AddAddressCommand command = new AddAddressCommand(commandHistory, addressList, address);
 				new PostalAddressView(address, command);
 			}
 		});
@@ -108,7 +112,7 @@ public class AddressListView extends JFrame implements IAddressListObserver {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (selectedAddress != null) {
-					DeleteAddressCommand command = new DeleteAddressCommand(commandHistory, selectedAddress);
+					DeleteAddressCommand command = new DeleteAddressCommand(commandHistory, addressList, selectedAddress);
 					command.execute();
 				}				
 			}
@@ -138,7 +142,7 @@ public class AddressListView extends JFrame implements IAddressListObserver {
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				AddressList.getInstance().save();
+				addressList.save();
 			}
 		});
 
@@ -152,7 +156,7 @@ public class AddressListView extends JFrame implements IAddressListObserver {
 		readButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				AddressList.getInstance().read();
+				addressList.read();
 			}
 		});
 
@@ -165,12 +169,12 @@ public class AddressListView extends JFrame implements IAddressListObserver {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					if (selectedAddress != null) {
-						UpdateAddressCommand command = new UpdateAddressCommand(commandHistory, selectedAddress);
-						if (selectedAddress instanceof PostalAddress) {							
-							new PostalAddressView((PostalAddress) selectedAddress, command);
+						UpdateAddressCommand command = new UpdateAddressCommand(commandHistory, addressList, selectedAddress);
+						if (selectedAddress instanceof IPostalAddress) {							
+							new PostalAddressView((IPostalAddress) selectedAddress, command);
 						}
-						if (selectedAddress instanceof EmailonlyAddress) {
-							new EmailonlyAddressView((EmailonlyAddress) selectedAddress, command); 
+						if (selectedAddress instanceof IEmailonlyAddress) {
+							new EmailonlyAddressView((IEmailonlyAddress) selectedAddress, command); 
 						}					
 					}
 				}
@@ -190,7 +194,7 @@ public class AddressListView extends JFrame implements IAddressListObserver {
 
 	private void refreshAddressList() {
 		listModel.removeAllElements();
-		for (IAbstractAddress address : AddressList.getInstance()) {
+		for (IAbstractAddress address : addressList) {
 			listModel.addElement(new DirtyFlagDisplay(address));
 		}
 	}
