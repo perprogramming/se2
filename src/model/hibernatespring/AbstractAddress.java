@@ -1,13 +1,22 @@
-package model.spring;
+package model.hibernatespring;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
 import model.IAbstractAddress;
 
+@MappedSuperclass
 public abstract class AbstractAddress implements Serializable, Cloneable, IAbstractAddress {
 
+	@Id @Column(name="ID")
+	private long id;
 	private static final long serialVersionUID = -7865459721335090510L;
+	@Column(name="NAME", length=50)
 	private String name;
+	@Column(name="EMAIL", length=50)
 	private String emailaddress;
 	private transient boolean dirty;
 
@@ -20,7 +29,7 @@ public abstract class AbstractAddress implements Serializable, Cloneable, IAbstr
 		this.emailaddress = "";
 		this.dirty = true;
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}

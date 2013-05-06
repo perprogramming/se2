@@ -1,8 +1,8 @@
 package test.model;
 
 import model.IAbstractAddress;
-import model.spring.AbstractAddress;
-import model.spring.EmailonlyAddress;
+import model.hibernatespring.AbstractAddress;
+import model.hibernatespring.EmailonlyAddress;
 import view.decorator.DirtyFlagDisplay;
 import junit.framework.TestCase;
 

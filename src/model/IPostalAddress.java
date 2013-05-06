@@ -7,9 +7,6 @@ public interface IPostalAddress extends IAbstractAddress {
 	public String getStreet();	
 	public void setStreet(String street);
 	
-	public String getNumber();
-	public void setNumber(String number);
-	
 	public String getZip();	
 	public void setZip(String zip);
 	

@@ -1,20 +1,27 @@
-package model.spring;
+package model.hibernatespring;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import model.IPostalAddress;
 
 @SuppressWarnings("serial")
+@Entity
+@Table(name="POSTALADDRESSES")
 public class PostalAddress extends AbstractAddress implements IPostalAddress {
 
+	@Column(name="STRASSE", length=50)
 	private String street;
-	private String number;
+	@Column(name="PLZ", length=50)
 	private String zip;
+	@Column(name="ORT", length=50)
 	private String town;
 	
 	@Override
 	protected void init() {
 		super.init();
 		this.street = "";
-		this.number = "";
 		this.zip = "";
 		this.town = "";
 	}
@@ -25,14 +32,6 @@ public class PostalAddress extends AbstractAddress implements IPostalAddress {
 	
 	public void setStreet(String street) {
 		this.street = street;
-	}
-	
-	public String getNumber() {
-		return number;
-	}
-	
-	public void setNumber(String number) {
-		this.number = number;
 	}
 	
 	public String getZip() {
@@ -57,7 +56,7 @@ public class PostalAddress extends AbstractAddress implements IPostalAddress {
 	
 	@Override
 	public String toString() { 
-		return super.toString() + " " + street + " " + number + " " + zip + " " + town;
+		return super.toString() + " " + street + " " + zip + " " + town;
 	}
 
 }

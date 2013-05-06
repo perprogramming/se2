@@ -1,4 +1,4 @@
-package model.spring;
+package model.hibernatespring;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
