@@ -6,7 +6,6 @@ import javax.persistence.Table;
 
 import model.IPostalAddress;
 
-@SuppressWarnings("serial")
 @Entity
 @Table(name="POSTALADDRESSES")
 public class PostalAddress extends AbstractAddress implements IPostalAddress {
@@ -56,7 +55,7 @@ public class PostalAddress extends AbstractAddress implements IPostalAddress {
 	
 	@Override
 	public String toString() { 
-		return super.toString() + " " + street + " " + zip + " " + town;
+		return super.toString() + " " + street.trim() + " " + zip.trim() + " " + town.trim();
 	}
 
 }

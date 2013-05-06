@@ -8,7 +8,7 @@ public class Factory {
 	ApplicationContext context;
 	
 	public Factory() {
-		context = new FileSystemXmlApplicationContext("spring.xml");
+		context = new FileSystemXmlApplicationContext("spring.xml", "springhibernate.xml");
 	}
 	
 	public IAddressList createAddressList() {

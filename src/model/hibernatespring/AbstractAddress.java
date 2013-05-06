@@ -1,19 +1,17 @@
 package model.hibernatespring;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 import model.IAbstractAddress;
 
 @MappedSuperclass
-public abstract class AbstractAddress implements Serializable, Cloneable, IAbstractAddress {
+public abstract class AbstractAddress implements Cloneable, IAbstractAddress {
 
-	@Id @Column(name="ID")
+	@Id @GeneratedValue @Column(name="ID")
 	private long id;
-	private static final long serialVersionUID = -7865459721335090510L;
 	@Column(name="NAME", length=50)
 	private String name;
 	@Column(name="EMAIL", length=50)
@@ -48,7 +46,7 @@ public abstract class AbstractAddress implements Serializable, Cloneable, IAbstr
 
 	@Override
 	public String toString() {
-		return name + " " + emailaddress;
+		return name.trim() + " " + emailaddress.trim();
 	}
 	
 	@Override

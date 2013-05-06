@@ -1,11 +1,5 @@
 package model.hibernatespring;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ArrayList;
@@ -14,16 +8,19 @@ import model.IAbstractAddress;
 import model.IAddressListObserver;
 import model.IAddressList;
 
-public class AddressList extends LinkedList<IAbstractAddress> implements Serializable, IAddressList {
+@SuppressWarnings("serial")
+public class AddressList extends LinkedList<IAbstractAddress> implements IAddressList {
 
-	private static final long serialVersionUID = -8436170099085318899L;
-	private static String filename = "address_system.dat";
-	
 	private transient ArrayList<IAddressListObserver> observers = new ArrayList<IAddressListObserver>();
+	private transient AddressDAO addressDao;
 	
 	@Override
 	public void addObserver(IAddressListObserver observer) {
 		observers.add(observer);
+	}
+	
+	public void setAddressDao(AddressDAO addressDao) {
+		this.addressDao = addressDao;
 	}
 
 	@Override
@@ -45,20 +42,11 @@ public class AddressList extends LinkedList<IAbstractAddress> implements Seriali
 	
 	@Override
 	public void save() {
-		FileOutputStream fos = null;
-		ObjectOutputStream out = null;
-		try {
-			fos = new FileOutputStream(filename);
-			out = new ObjectOutputStream(fos);
-			out.writeObject(this);
-			out.close();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-		
 		Iterator<IAbstractAddress> iterator = this.iterator();
 		while (iterator.hasNext()) {
-			iterator.next().setDirty(false);
+			IAbstractAddress address = iterator.next();
+			this.addressDao.saveAddress(address);
+			address.setDirty(false);
 		}
 		notifyObservers();
 	}
@@ -66,26 +54,9 @@ public class AddressList extends LinkedList<IAbstractAddress> implements Seriali
 	@Override
 	public void read() {
 		this.clear();
-		
-		AddressList addressList = null;
-		FileInputStream fis = null;
-		ObjectInputStream in = null;
-		try {
-		    fis = new FileInputStream(filename);
-		    in = new ObjectInputStream(fis);
-		    addressList = (AddressList)in.readObject();
-		    in.close();
-		} catch(IOException ex){
-		    ex.printStackTrace();
-		} catch(ClassNotFoundException ex){
-		    ex.printStackTrace();
-		}
-		
-		Iterator<IAbstractAddress> iterator = addressList.iterator();
-		while (iterator.hasNext()) {
-			IAbstractAddress address = iterator.next();
+		for (IAbstractAddress address : this.addressDao.listAddresses()) {
 			address.setDirty(false);
-			this.add(address);			
+			this.add(address);
 		}
 	}
 	

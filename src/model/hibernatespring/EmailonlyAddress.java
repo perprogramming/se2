@@ -5,7 +5,6 @@ import javax.persistence.Table;
 
 import model.IEmailonlyAddress;
 
-@SuppressWarnings("serial")
 @Entity
 @Table(name="EMAILADDRESSES")
 public class EmailonlyAddress extends AbstractAddress implements IEmailonlyAddress {
