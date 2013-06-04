@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<project name="se2" default="build" basedir=".">
+<project name="se2" default="build" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
     <property name="src" location="src" />
     <property name="build" location="build" />
     <property name="test"  location="test" />
@@ -37,6 +37,7 @@
     </target>
 
     <target name="init">
+    	<ivy:retrieve />
         <tstamp />
         <mkdir dir="${build}" />
         <mkdir dir="${test}" />

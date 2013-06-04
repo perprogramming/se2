@@ -10,7 +10,7 @@
     	<dependency org="org.springframework" name="spring-beans" rev="3.2.2.RELEASE" conf="compile->default"/>
     	<dependency org="org.springframework" name="spring-context" rev="3.2.2.RELEASE" conf="compile->default"/>
     	<dependency org="org.springframework" name="spring-expression" rev="3.2.2.RELEASE" conf="compile->default"/>
-    	<dependency org="commons-logging" name="commons-logging"/>
+    	<dependency org="commons-logging" name="commons-logging" rev="1.1.1"/>
     	<dependency org="org.hsqldb" name="hsqldb" rev="2.2.9"/>
     	<dependency org="commons-dbcp" name="commons-dbcp" rev="1.4"/>
     	<dependency org="commons-collections" name="commons-collections" rev="3.2.1"/>
