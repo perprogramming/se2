@@ -18,5 +18,6 @@
     	<dependency org="org.hibernate" name="hibernate-ehcache" rev="4.2.1.Final"/>
     	<dependency org="org.jboss.logging" name="jboss-logging" rev="3.0.1.GA"/>
     	<dependency org="org.springframework" name="spring-orm" rev="3.2.2.RELEASE" conf="compile->default"/>
+    	<dependency org="junit" name="junit" rev="4.11"/>
     </dependencies>
 </ivy-module>
